@@ -1,0 +1,44 @@
+{
+  "name": "flux-framework",
+  "emitLegacyScripts": false,
+
+  "tree": {
+    "$className": "DataModel",
+
+    "ReplicatedStorage": {
+      "shared": {
+        "$path": "src/shared"
+      },
+
+      "client": {
+        "$path": "src/client"
+      },
+
+      "lab": {
+        "$path": "lab"
+      },
+      
+      "tests": {
+        "$path": "tests"
+      }
+    },
+
+    "ServerScriptService": {
+      "server": {
+        "$path": "src/server"
+      }
+    },
+
+    "Workspace": {
+      "$properties": {
+        "FilteringEnabled": true
+      }
+    },
+    
+    "SoundService": {
+      "$properties": {
+        "RespectFilteringEnabled": true
+      }
+    }
+  }
+}
