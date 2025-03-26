@@ -4,14 +4,14 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local shared = ReplicatedStorage.shared
 
 local lab = require(ReplicatedStorage.lab)
-local Queue = require(shared.adts.queue)
-local Stack = require(shared.adts.stack)
+local Queue = require(shared.queue)
+local Stack = require(shared.stack)
 
 type Queue<T> = Queue.Queue<T>
 type Stack<T> = Stack.Stack<T>
 
 lab.test("queue random enqueue and dequeue", function()
-	
+
 	local order = {}
 	for i = 1, math.random(10, 100) do
 		order[i] = math.random(1, 10000)

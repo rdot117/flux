@@ -40,7 +40,7 @@ export type EffectImpl = Node & {
 }
 
 -- external apis
-export type Source<T> = SourceImpl<T> & (newValue: T) -> T
+export type Source<T> = SourceImpl<T> & ((newValue: T) -> T)
 
 export type UsedAs<T> = T | Usable<T>
 export type Computed<T> = ComputedImpl<T>
@@ -68,8 +68,8 @@ export type Use = Peek
 -- type functions
 local function is_node(node: any)
 	return typeof(node) == "table"
-		and typeof(node.dependencies) == "table"
-		and typeof(node.dependents) == "table"
+		and typeof(node._dependencies) == "table"
+		and typeof(node._dependents) == "table"
 		and typeof(node.destroy) == "function"
 end
 

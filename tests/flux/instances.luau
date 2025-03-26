@@ -7,6 +7,8 @@ local lab = require(ReplicatedStorage.lab)
 local source = flux.source
 local peek = flux.peek
 
+type Source<T> = flux.Source<T>
+
 lab.test("simple frame and property assignment", function()
 	local frame = flux.element "Frame" {
 		Name = "test_frame",
@@ -80,7 +82,7 @@ lab.test("basic children", function()
 		}
 	}
 
-	lab.expect(frame:FindFirstChild("button"))
+	lab.expect(frame:FindFirstChild("button") ~= nil)
 
 	frame:Destroy()
 end)
@@ -90,31 +92,31 @@ lab.test("dynamic parenting", function()
 		local a = flux.element "Frame" {
 			Name = "a",
 		}
-	
+
 		local b = flux.element "Frame" {
 			Name = "b",
 		}
-	
+
 		local c = flux.element "Frame" {
 			Name = "c",
 		}
-	
-		local children = source({a, b})
-	
+
+		local children: Source<Instance | {Instance}> = source({a, b})
+
 		local frame = flux.element "Frame" {
 			children,
 		}
 
-		lab.expect(frame:FindFirstChild("a") and frame:FindFirstChild("b") and not frame:FindFirstChild("c"))
-	
+		lab.expect(frame:FindFirstChild("a") ~= nil and frame:FindFirstChild("b") ~= nil and not frame:FindFirstChild("c"))
+
 		children(c)
-		lab.expect(not frame:FindFirstChild("a") and not frame:FindFirstChild("b") and frame:FindFirstChild("c"))
-	
+		lab.expect(not frame:FindFirstChild("a") ~= nil and not frame:FindFirstChild("b") ~= nil and frame:FindFirstChild("c") ~= nil)
+
 		children({a})
-		lab.expect(frame:FindFirstChild("a") and not frame:FindFirstChild("b") and not frame:FindFirstChild("c"))
-		
+		lab.expect(frame:FindFirstChild("a") ~= nil and not frame:FindFirstChild("b") and not frame:FindFirstChild("c"))
+
 		children({b})
-		lab.expect(not frame:FindFirstChild("a") and frame:FindFirstChild("b") and not frame:FindFirstChild("c"))
+		lab.expect((not frame:FindFirstChild("a") and frame:FindFirstChild("b") and not frame:FindFirstChild("c")) :: boolean)
 	end)
 
 	handle()

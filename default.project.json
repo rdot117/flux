@@ -1,44 +1,44 @@
 {
-  "name": "flux-framework",
-  "emitLegacyScripts": false,
+    "name": "flux-framework",
+    "emitLegacyScripts": false,
 
-  "tree": {
-    "$className": "DataModel",
+    "tree": {
+        "$className": "DataModel",
 
-    "ReplicatedStorage": {
-      "shared": {
-        "$path": "src/shared"
-      },
+        "ReplicatedStorage": {
+            "shared": {
+                "$path": "src/shared"
+            },
 
-      "client": {
-        "$path": "src/client"
-      },
+            "client": {
+                "$path": "src/client"
+            },
 
-      "lab": {
-        "$path": "lab"
-      },
-      
-      "tests": {
-        "$path": "tests"
-      }
-    },
+            "lab": {
+                "$path": "lab"
+            },
 
-    "ServerScriptService": {
-      "server": {
-        "$path": "src/server"
-      }
-    },
+            "tests": {
+                "$path": "tests"
+            }
+        },
 
-    "Workspace": {
-      "$properties": {
-        "FilteringEnabled": true
-      }
-    },
-    
-    "SoundService": {
-      "$properties": {
-        "RespectFilteringEnabled": true
-      }
+        "ServerScriptService": {
+            "server": {
+                "$path": "src/server"
+            }
+        },
+
+        "Workspace": {
+            "$properties": {
+                "FilteringEnabled": true
+            }
+        },
+
+        "SoundService": {
+            "$properties": {
+                "RespectFilteringEnabled": true
+            }
+        }
     }
-  }
 }

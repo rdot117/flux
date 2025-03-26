@@ -26,7 +26,7 @@ end
 
 function Source.new<T>(initialValue: T): Source<T>
 	local super = Node.new()
-	
+
 	local self = (setmetatable(super, Source) :: any) :: SourceImpl<T>
 	self._value = initialValue
 
@@ -42,7 +42,7 @@ function Source.destroy<T>(self: SourceImpl<T>)
 	Node.destroy(self)
 end
 
-return function<T>(initialValue: T)
+return function<T>(initialValue: T): Source<T>
 	local handle = Source.new(initialValue)
 
 	if scopes.in_scope() then

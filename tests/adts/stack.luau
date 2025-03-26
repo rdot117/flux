@@ -4,12 +4,12 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local shared = ReplicatedStorage.shared
 
 local lab = require(ReplicatedStorage.lab)
-local Stack = require(shared.adts.stack)
+local Stack = require(shared.stack)
 
 type Stack<T> = Stack.Stack<T>
 
 lab.test("stack random push and pop", function()
-	
+
 	local order = {}
 	for i = 1, math.random(10, 100) do
 		order[i] = math.random(1, 10000)
