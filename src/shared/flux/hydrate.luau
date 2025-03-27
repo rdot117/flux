@@ -51,7 +51,7 @@ local function bind_property(instance: Instance, property: string, value: UsedAs
 end
 
 local function bind_children(instance: Instance, children: UsedAs<any>)
-	
+
 	-- static child
 	if typeof(children) == "Instance" then
 		children.Parent = instance
@@ -109,7 +109,7 @@ local function hydrate(instance: Instance, layered_props: { [any]: any })
 		end
 
 		for key, value in props do
-			
+
 			-- case 0: parent key
 			if key == "Parent" then
 				parent = value
@@ -118,11 +118,11 @@ local function hydrate(instance: Instance, layered_props: { [any]: any })
 			-- case 1: string key (property)
 			if typeof(key) == "string" then
 				bind_property(instance, key, value)
-	
+
 			-- case 2: instance/node value (child)
 			elseif typeof(value) == "Instance" or types.is_node(value) then
 				bind_children(instance, value)
-			
+
 			-- case 3: nested props
 			elseif typeof(value) == "table" then
 				props_queue:enqueue(value)
