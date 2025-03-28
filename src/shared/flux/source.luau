@@ -17,6 +17,8 @@ Source.__call = function<T>(self: SourceImpl<T>, ...)
 	if select("#", ...) > 0 then
 		local newValue = ... :: T
 
+		print("[source]: value changed to ", newValue)
+
 		self._value = newValue
 		graph.changed(self)
 	end
@@ -33,7 +35,7 @@ function Source.new<T>(initialValue: T): Source<T>
 	return (self :: any) :: Source<T>
 end
 
-function Source.evaluate<T>(self: SourceImpl<T>)
+function Source._evaluate<T>(self: SourceImpl<T>)
 	return true
 end
 

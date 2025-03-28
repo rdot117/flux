@@ -50,6 +50,7 @@ function Spring.new<T>(damping: UsedAs<number>, speed: UsedAs<number>, target: U
 	self._internal_spring = InternalSpring.new(peek(target))
 	
 	self._internal_spring:bind(function()
+		self._value = self._internal_spring.position
 		graph.changed(self)
 	end)
 
@@ -62,7 +63,7 @@ function Spring.new<T>(damping: UsedAs<number>, speed: UsedAs<number>, target: U
 	return (setmetatable(self, Spring) :: any) :: Spring<T>
 end
 
-function Spring.evaluate<T>(self: SpringImpl<T>)
+function Spring._evaluate<T>(self: SpringImpl<T>)
 	return true
 end
 

@@ -12,6 +12,7 @@ type Usable<T> = types.Usable<T>
 type UsedAs<T> = types.UsedAs<T>
 type Queue<T> = Queue.Queue<T>
 type Stack<T> = Stack.Stack<T>
+type Readable<T> = types.Readable<T>
 
 local updates: Queue<Node> = Queue.new()
 -- local capturing: Stack<Node> = Stack.new()
@@ -53,16 +54,16 @@ local function capture<T...>(root: Node, evaluate: (...any) -> T..., ...: any): 
 	return table.unpack(result)
 end
 
-local function peek<T>(node: UsedAs<T>): T
-	if types.is_node(node) then
-		return (node :: Usable<T>)._value
+local function peek<T>(node: T | Readable<T>): T
+	if types.is_readable(node) then
+		return (node :: Readable<T>)._value
 	end
 
 	return node :: T
 end
 
 local function use(root: Node): Use
-	return function<T>(used_as: UsedAs<T>): T
+	return function<T>(used_as: T | UsedAs<T>): T
 		if types.is_node(used_as) then
 			local dependency = used_as :: Usable<T>
 			root._dependencies[dependency] = true

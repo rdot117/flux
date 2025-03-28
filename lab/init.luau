@@ -8,11 +8,6 @@ local shared = ReplicatedStorage.shared
 local types = require(package.types)
 local flags = require(package.flags)
 local results = require(package.results)
-
-local skip = require(package.skip)
-local garbage_collect = require(package.garbage_collect)
-local weak_ref = require(package.weak_ref)
-
 local Queue = require(shared.queue)
 
 -- | types | --
@@ -60,15 +55,51 @@ local function expect_equal(a: any, b: any)
 	end
 end
 
+local function weak_ref(): { [any]: any }
+	return setmetatable({}, { __mode = "kv" }) :: any
+end
+
+--[=[
+	Trigger a garbage collection cycle by allocating a large amount of junk memory
+	and then waiting for the next frame.
+]=]
+local function garbage_collect()
+	if not flags.current then
+		error("[lab]: attempted to use `garbage_collect` outside of a test")
+	end
+
+	for _ = 1, 1e4 do
+		local _ = table.create(1e3)
+	end
+	
+	task.wait()
+end
+
+--[=[
+	Skips the remainder of a test thread. Must be called inside of a test
+]=]
+local function skip()
+	if not flags.current then
+		error("[lab]: attempted to use `skip` outside of a test")
+	end
+
+	local test_thread = coroutine.running()
+
+	task.defer(function()
+		
+		task.cancel(test_thread)
+		results.case_skip("skipped test execution")
+
+		task.spawn(flags.current.thread)
+	end)
+
+	coroutine.yield()
+end
+
 -- | test execution functions | --
 local function run(test: Test)
 
-	-- mark as current global test
-	-- to enable special test utility functions
 	flags.current = test
-
-	-- stores `processing` thread to resume
-	-- when test handler completes, or skips
 	test.thread = coroutine.running()
 	results.starting(test.name)
 
@@ -89,11 +120,7 @@ local function run(test: Test)
 	task.defer(runner)
 	coroutine.yield()
 
-	-- output results
 	results.complete()
-	
-	-- unmark as global test, disabling
-	-- special test utilities
 	flags.current = nil
 end
 

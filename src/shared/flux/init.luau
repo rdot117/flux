@@ -9,11 +9,13 @@ local scopes = require(package.scopes)
 local element = require(package.element)
 local hydrate = require(package.hydrate)
 local graph = require(package.graph)
+local context = require(package.context)
 
 export type Scope = types.Scope
 export type Source<T> = types.Source<T>
 export type Computed<T> = types.Computed<T>
 export type UsedAs<T> = types.UsedAs<T>
+export type Context<T> = types.Context<T>
 
 return {
 	source = source,
@@ -29,4 +31,6 @@ return {
 	root = scopes.root,
 	use_cleanup = scopes.use_cleanup,
 	use_event = scopes.use_event,
+
+	context = context,
 }

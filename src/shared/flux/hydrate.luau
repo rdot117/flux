@@ -10,8 +10,8 @@ type UsedAs<T> = types.UsedAs<T>
 type Queue<T> = Queue.Queue<T>
 
 local INVALID_CHILDREN_TYPE = "[flux]: invalid children type: %s"
-local PROPERTY_DOESNT_EXIST = "[flux]: attempted to set property that doesn't exist: %s"
-local INVALID_PROPERTY = "[flux]: error setting property %s with value %s, error: %s"
+local PROPERTY_DOESNT_EXIST = "[flux]: attempted to set to property that doesn't exist: %s"
+local INVALID_PROPERTY_SET = "[flux]: error setting property %s to value %s: %s"
 
 local function has_property(instance: Instance, property: string)
 	local impl = instance :: any
@@ -23,6 +23,10 @@ local function has_property(instance: Instance, property: string)
 	return ok
 end
 
+--[=[
+	Sets a property to a value. Assumes that the provided instance
+	actually contains the property, and errors if the operation fails
+]=]
 local function set_property(instance: Instance, property: string, value: any)
 	local impl = instance :: any
 
@@ -31,7 +35,7 @@ local function set_property(instance: Instance, property: string, value: any)
 	end)
 
 	if not ok then
-		error(string.format(INVALID_PROPERTY, property, value, err), 0)
+		error(string.format(INVALID_PROPERTY_SET, property, value, err), 0)
 	end
 end
 

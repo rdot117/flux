@@ -15,6 +15,8 @@ lab.test("simple computed", function()
 		return use(counter) * 2
 	end)
 
+	print(counter._dependents)
+	
 	lab.expect_equal(peek(double), peek(counter) * 2)
 
 	counter(1)

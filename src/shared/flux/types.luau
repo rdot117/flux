@@ -24,7 +24,8 @@ export type Node = {
 export type NodeSet = { [Node]: true }
 
 -- internal implementations
-export type Usable<T> = Node & { _value: T }
+export type Readable<T> = { _value: T }
+export type Usable<T> = Node & Readable<T>
 
 export type SourceImpl<T> = Usable<T>
 
@@ -40,9 +41,8 @@ export type EffectImpl = Node & {
 }
 
 -- external apis
-export type Source<T> = SourceImpl<T> & ((newValue: T) -> T)
-
 export type UsedAs<T> = T | Usable<T>
+export type Source<T> = SourceImpl<T> & (newValue: T) -> T
 export type Computed<T> = ComputedImpl<T>
 export type Effect = () -> ()
 
@@ -61,11 +61,19 @@ export type SpringImpl<T> = Usable<T> & {
 
 export type Spring<T> = SpringImpl<T>
 
--- use apis
-export type Peek = <T>(used_as: UsedAs<T>) -> T
-export type Use = Peek
+-- consumer utilities
+export type Peek = <T>(used_as: T | Readable<T>) -> T
+export type Use = <T>(used_as: T | Usable<T>) -> T
+
+-- context
+export type ContextImpl<T> = Readable<T>
+export type Context<T> = <P...>(newValue: T, during: (...unknown) -> (P...)) -> P... & ContextImpl<T> 
 
 -- type functions
+local function is_readable(node: any)
+	return typeof(node) == "table"
+end
+
 local function is_node(node: any)
 	return typeof(node) == "table"
 		and typeof(node._dependencies) == "table"
@@ -74,5 +82,6 @@ local function is_node(node: any)
 end
 
 return {
+	is_readable = is_readable,
 	is_node = is_node,
 }

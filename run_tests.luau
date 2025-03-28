@@ -5,7 +5,7 @@ print("requiring queue")
 
 local queue = require(ReplicatedStorage.tests.adts.queue)
 
-task.wait(5)
+task.wait(10)
 
 print("post require")
 
