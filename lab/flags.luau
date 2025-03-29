@@ -3,8 +3,8 @@ local package = script.Parent
 
 local types = require(package.types)
 
-type Test = types.Test
+type TestSuite = types.TestSuite
 
 return {
-	current = nil :: Test?
+    current_suite = nil :: TestSuite?
 }

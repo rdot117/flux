@@ -16,7 +16,7 @@ setmetatable(Computed, Node)
 
 function Computed.new<T>(source: (use: Use) -> T): Computed<T>
 	local super = Node.new()
-	
+
 	local self = (setmetatable(super, Computed) :: any) :: ComputedImpl<T>
 	self._source = source
 
@@ -30,10 +30,10 @@ function Computed._evaluate<T>(self: ComputedImpl<T>)
 
 	self:_clear_dependencies()
 
-	local newValue = graph.capture(self, self._source, self._use)
+	local new_value = graph.capture(self, self._source, self._use)
 
-	if newValue ~= self._value then
-		self._value = newValue
+	if new_value ~= self._value then
+		self._value = new_value
 		return true
 	end
 

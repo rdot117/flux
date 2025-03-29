@@ -42,7 +42,7 @@ export type EffectImpl = Node & {
 
 -- external apis
 export type UsedAs<T> = T | Usable<T>
-export type Source<T> = SourceImpl<T> & (newValue: T) -> T
+export type Source<T> = SourceImpl<T> & (new_value: T) -> T
 export type Computed<T> = ComputedImpl<T>
 export type Effect = () -> ()
 
@@ -67,7 +67,7 @@ export type Use = <T>(used_as: T | Usable<T>) -> T
 
 -- context
 export type ContextImpl<T> = Readable<T>
-export type Context<T> = <P...>(newValue: T, during: (...unknown) -> (P...)) -> P... & ContextImpl<T> 
+export type Context<T> = <P...>(newValue: T, during: (...unknown) -> (P...)) -> P... & ContextImpl<T>
 
 -- type functions
 local function is_readable(node: any)

@@ -1,12 +1,12 @@
 export type Stack<T> = {
 	_size: number,
 	_values: {T},
-	
+
 	size: (self: Stack<T>) -> number,
 	is_empty: (self: Stack<T>) -> boolean,
 
 	push: (self: Stack<T>, item: T) -> (),
-	peek: (self: Stack<T>) -> T?,
+	peek: (self: Stack<T>, index: number?) -> T?,
 	pop: (self: Stack<T>) -> T?,
 
 	destroy: (self: Stack<T>) -> (),
@@ -37,12 +37,12 @@ function Stack.push<T>(self: Stack<T>, item: T)
 	self._values[self._size] = item
 end
 
-function Stack.peek<T>(self: Stack<T>)
+function Stack.peek<T>(self: Stack<T>, index: number?)
 	if self._size <= 0 then
 		return
 	end
 
-	return self._values[self._size]
+	return self._values[index or self._size]
 end
 
 function Stack.pop<T>(self: Stack<T>)
