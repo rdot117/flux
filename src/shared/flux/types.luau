@@ -33,7 +33,6 @@ export type ComputedImpl<T> = Usable<T> & {
 	_source: (use: Use) -> T,
 	_use: Use,
 }
-
 export type EffectImpl = Node & {
 	_scope: Scope,
 	_source: (use: Use) -> (),
@@ -41,10 +40,14 @@ export type EffectImpl = Node & {
 }
 
 -- external apis
-export type UsedAs<T> = T | Usable<T>
+export type UsedAs<T> = T | Readable<T>
 export type Source<T> = SourceImpl<T> & (new_value: T) -> T
 export type Computed<T> = ComputedImpl<T>
 export type Effect = () -> ()
+
+-- consumer utilities
+export type Peek = <T>(used_as: T | Readable<T>) -> T
+export type Use = <T>(used_as: T | Usable<T>) -> T
 
 -- animation
 export type SpringImpl<T> = Usable<T> & {
@@ -60,10 +63,6 @@ export type SpringImpl<T> = Usable<T> & {
 }
 
 export type Spring<T> = SpringImpl<T>
-
--- consumer utilities
-export type Peek = <T>(used_as: T | Readable<T>) -> T
-export type Use = <T>(used_as: T | Usable<T>) -> T
 
 -- context
 export type ContextImpl<T> = Readable<T>
