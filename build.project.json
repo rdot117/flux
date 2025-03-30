@@ -7,21 +7,21 @@
 
         "ReplicatedStorage": {
             "packages": {
-                "$path": "packages"
+                "$path": "build/packages"
             },
 
             "shared": {
-                "$path": "src/shared"
+                "$path": "build/src/shared"
             },
 
             "client": {
-                "$path": "src/client"
+                "$path": "build/src/client"
             }
         },
 
         "ServerScriptService": {
             "server": {
-                "$path": "src/server"
+                "$path": "build/src/server"
             }
         },
 

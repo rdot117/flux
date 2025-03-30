@@ -1,5 +1,4 @@
 local package = script.Parent
-local packages = package.Parent
 
 local types = require(package.types)
 local Queue = require("@pkg/adts/queue")
@@ -53,7 +52,7 @@ local function capture<T...>(root: Node, evaluate: (...any) -> T..., ...: any): 
 	return table.unpack(result)
 end
 
-local function peek<T>(node: T | Readable<T>): T
+local function peek<T>(node: UsedAs<T>): T
 	if types.is_readable(node) then
 		return (node :: Readable<T>)._value
 	end
@@ -62,7 +61,7 @@ local function peek<T>(node: T | Readable<T>): T
 end
 
 local function use(root: Node): Use
-	return function<T>(used_as: T | UsedAs<T>): T
+	return function<T>(used_as: UsedAs<T>): T
 		if types.is_node(used_as) then
 			local dependency = used_as :: Usable<T>
 			root._dependencies[dependency] = true

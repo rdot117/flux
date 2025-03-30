@@ -2,28 +2,15 @@
 
 set -e
 
-BUILD_DIR=build
-DARKLUA_CONFIG=.darklua.json
-SOURCEMAP=sourcemap.json
-PACKAGES=packages
-
-# cleanup existing dir
-rm -f $SOURCEMAP
-rm -rf $BUILD_DIR
-
 # make build directory
-mkdir -p $BUILD_DIR
-
-# copy necessary files
-cp build.project.json $BUILD_DIR/build.project.json
+mkdir -p build
 
 # update sourcemap
-rojo sourcemap build.project.json -o $SOURCEMAP
-rojo sourcemap --watch build.project.json -o $SOURCEMAP &
+rojo sourcemap default.project.json --output sourcemap.json --watch
 
 # run darklua process on changes
-darklua process -w src $BUILD_DIR/src &
-darklua process -w packages $BUILD_DIR/packages &
+darklua process src build/src --watch &
+darklua process packages build/packages --watch &
 
 # sync to roblox
-rojo serve $BUILD_DIR/build.project.json
+rojo serve build.project.json

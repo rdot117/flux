@@ -46,8 +46,7 @@ export type Computed<T> = ComputedImpl<T>
 export type Effect = () -> ()
 
 -- consumer utilities
-export type Peek = <T>(used_as: T | Readable<T>) -> T
-export type Use = <T>(used_as: T | Usable<T>) -> T
+export type Use = <T>(used_as: UsedAs<T>) -> T
 
 -- animation
 export type SpringImpl<T> = Usable<T> & {

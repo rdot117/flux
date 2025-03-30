@@ -1,11 +1,18 @@
 {
-    "process": [
+    "rules": [
         {
             "rule": "convert_require",
             "current": {
                 "name": "path",
                 "sources": {
-                    "@pkg": "packages/"
+                    "@Packages": "Packages/",
+                    "@Client": "src/Client/",
+                    "@Controllers": "src/Client/Controllers/",
+                    "@Components": "src/Client/UI/Components/",
+                    "@Hooks": "src/Client/UI/Hooks/",
+                    "@Common": "src/Common/",
+                    "@Server": "src/Server/",
+                    "@Services": "src/Server/Services/"
                 }
             },
             "target": {
