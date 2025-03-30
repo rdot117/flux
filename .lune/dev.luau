@@ -1,6 +1,9 @@
 local fs = require "@lune/fs"
 local process = require "@lune/process"
 local task = require "@lune/task"
+local install = require "install"
+
+install()
 
 fs.writeDir("build")
 print "[dev]: wrote to  `build` directory"
