@@ -1,7 +1,4 @@
-local package = script.Parent
-local packages = package.Parent
-
-local InternalSpring = require(packages.spring)
+local InternalSpring = require "@pkg/spring"
 
 type InternalSpring<T> = InternalSpring.Spring<T>
 

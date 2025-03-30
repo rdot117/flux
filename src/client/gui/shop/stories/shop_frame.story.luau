@@ -1,6 +1,6 @@
 local flux = require "@pkg/flux"
 local ui_labs = require "@pkg/ui_labs"
-local shop_frame = require("@gui/shop/shop_frame")
+local shop_frame = require "@gui/shop/shop_frame"
 
 local source = flux.source
 

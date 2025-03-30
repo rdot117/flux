@@ -1,12 +1,9 @@
-local package = script.Parent
-local packages = package.Parent
-
-local types = require(package.types)
-local scopes = require(package.scopes)
-local graph = require(package.graph)
-local effect = require(package.effect)
-local Node = require(package.node)
-local InternalSpring = require(packages.spring)
+local types = require "./types"
+local scopes = require "./scopes"
+local graph = require "./graph"
+local effect = require "./effect"
+local Node = require "./node"
+local InternalSpring = require "@pkg/spring"
 
 type UsedAs<T> = types.UsedAs<T>
 type Spring<T> = types.Spring<T>

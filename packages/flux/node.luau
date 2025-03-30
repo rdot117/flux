@@ -1,6 +1,4 @@
-local package = script.Parent
-
-local types = require(package.types)
+local types = require "./types"
 
 type Node = types.Node
 type NodeSet = types.NodeSet

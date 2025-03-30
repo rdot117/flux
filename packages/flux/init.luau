@@ -1,15 +1,13 @@
-local package = script
-
-local source = require(package.source)
-local effect = require(package.effect)
-local computed = require(package.computed)
-local types = require(package.types)
-local scopes = require(package.scopes)
-local element = require(package.element)
-local hydrate = require(package.hydrate)
-local graph = require(package.graph)
-local context = require(package.context)
-local spring = require(package.spring)
+local types = require "../flux/types"
+local source = require "../flux/source"
+local effect = require "../flux/effect"
+local computed = require "../flux/computed"
+local scopes = require "../flux/scopes"
+local element = require "../flux/element"
+local hydrate = require "../flux/hydrate"
+local graph = require "../flux/graph"
+local context = require "../flux/context"
+local spring = require "../flux/spring"
 
 export type Scope = types.Scope
 export type Source<T> = types.Source<T>

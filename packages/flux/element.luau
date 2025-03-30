@@ -1,7 +1,5 @@
-local package = script.Parent
-
-local scopes = require(package.scopes)
-local hydrate = require(package.hydrate)
+local scopes = require "./scopes"
+local hydrate = require "./hydrate"
 
 local function element(classname: string)
 	return function(props: { [any]: any })

@@ -1,9 +1,6 @@
-local package = script.Parent
-local packages = package.Parent
-
-local types = require(package.types)
-local do_cleaning = require(packages.do_cleaning)
-local Stack = require(packages.adts.stack)
+local types = require "./types"
+local do_cleaning = require "@pkg/do_cleaning"
+local Stack = require "@pkg/adts/stack"
 
 type Stack<T> = Stack.Stack<T>
 type Scope = types.Scope

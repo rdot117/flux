@@ -1,6 +1,4 @@
-local package = script.Parent
-
-local types = require(package.types)
+local types = require "./types"
 
 type ContextImpl<T> = types.ContextImpl<T>
 type Context<T> = types.Context<T>

@@ -1,9 +1,7 @@
-local package = script.Parent
-
-local types = require(package.types)
-local graph = require(package.graph)
-local scopes = require(package.scopes)
-local Node = require(package.node)
+local types = require "./types"
+local graph = require "./graph"
+local scopes = require "./scopes"
+local Node = require "./node"
 
 type Source<T> = types.Source<T>
 type SourceImpl<T> = types.SourceImpl<T>

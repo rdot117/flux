@@ -1,8 +1,6 @@
-local package = script.Parent
-
-local types = require(package.types)
-local Queue = require("@pkg/adts/queue")
-local Stack = require("@pkg/adts/stack")
+local types = require "./types"
+local Queue = require "@pkg/adts/queue"
+local Stack = require "@pkg/adts/stack"
 
 type Node = types.Node
 type Use = types.Use
