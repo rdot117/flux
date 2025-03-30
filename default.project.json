@@ -6,20 +6,16 @@
         "$className": "DataModel",
 
         "ReplicatedStorage": {
+            "packages": {
+                "$path": "packages"
+            },
+
             "shared": {
                 "$path": "src/shared"
             },
 
             "client": {
                 "$path": "src/client"
-            },
-
-            "lab": {
-                "$path": "lab"
-            },
-
-            "tests": {
-                "$path": "tests"
             }
         },
 
