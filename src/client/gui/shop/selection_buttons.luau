@@ -1,10 +1,5 @@
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-local packages = ReplicatedStorage.packages
-local client = script.Parent.Parent.Parent
-
-local flux = require(packages.flux)
-local button_events = require(client.gui.hooks.button_events)
+local flux = require "@pkg/flux"
+local button_events = require "@gui/hooks/button_events"
 
 local source = flux.source
 local element = flux.element

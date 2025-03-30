@@ -1,11 +1,6 @@
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-local packages = ReplicatedStorage.packages
-local shop = script.Parent.Parent
-
-local flux = require(packages.flux)
-local ui_labs = require(packages.ui_labs)
-local shop_frame = require(shop.shop_frame)
+local flux = require "@pkg/flux"
+local ui_labs = require "@pkg/ui_labs"
+local shop_frame = require("@gui/shop/shop_frame")
 
 local source = flux.source
 

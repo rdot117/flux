@@ -1,8 +1,4 @@
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-local packages = ReplicatedStorage.packages
-
-local flux = require(packages.flux)
+local flux = require "@pkg/flux"
 
 local computed = flux.computed
 local element = flux.element

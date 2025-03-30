@@ -1,9 +1,11 @@
 {
     "languageMode": "strict",
     "aliases": {
-        "pkg": "packages",
-        "client": "src/client",
-        "server": "src/server",
-        "shared": "src/shared",
+        "pkg": "packages/",
+        "client": "src/client/",
+        "gui": "src/client/gui/",
+        "server": "src/server/",
+        "shared": "src/shared/",
+        "lune": "~/.lune/.typedefs/0.8.9/"
     }
 }
