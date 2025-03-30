@@ -4,7 +4,7 @@ local packages = package.Parent
 
 local types = require(package.types)
 local do_cleaning = require(packages.do_cleaning)
-local Stack = require(packages.stack)
+local Stack = require(packages.adts.stack)
 
 type Stack<T> = Stack.Stack<T>
 type Scope = types.Scope

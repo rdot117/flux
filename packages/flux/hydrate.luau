@@ -4,7 +4,7 @@ local packages = package.Parent
 
 local types = require(package.types)
 local effect = require(package.effect)
-local Queue = require(packages.queue)
+local Queue = require(packages.adts.queue)
 
 type SpecialKey = types.SpecialKey
 type UsedAs<T> = types.UsedAs<T>
