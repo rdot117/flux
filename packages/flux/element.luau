@@ -1,4 +1,3 @@
---!strict
 local package = script.Parent
 
 local scopes = require(package.scopes)

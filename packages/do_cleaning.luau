@@ -1,5 +1,3 @@
---!strict
-
 --[=[
 	Accepts a `chore` parameter, which can be either
 	a `function`, `RBXScriptConnection`, `Instance`, `thread`,
@@ -11,7 +9,7 @@ local function do_cleaning(chore: any)
 	-- case 1: function
 	if typeof(chore) == "function" then
 		chore()
-	
+
 	-- case 2: connection
 	elseif typeof(chore) == "RBXScriptConnection" then
 		chore:Disconnect()
@@ -33,7 +31,7 @@ local function do_cleaning(chore: any)
 
 	-- case 5: table
 	elseif typeof(chore) == "table" then
-		
+
 		-- case 6: object with :destroy method
 		if typeof(chore.destroy) == "function" then
 			chore:destroy()

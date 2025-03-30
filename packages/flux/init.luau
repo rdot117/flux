@@ -1,4 +1,3 @@
---!strict
 local package = script
 
 local source = require(package.source)

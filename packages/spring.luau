@@ -1,4 +1,3 @@
---!strict
 local RunService = game:GetService("RunService")
 
 local EPSILON = 1e-3

@@ -1,12 +1,15 @@
---!strict
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local packages = ReplicatedStorage.packages
+local client = script.Parent.Parent.Parent
 
 local flux = require(packages.flux)
+local button_events = require(client.gui.hooks.button_events)
 
 local source = flux.source
 local element = flux.element
+local spring = flux.spring
+local computed = flux.computed
 
 local function selection_button(props: {
     index: number,
@@ -18,8 +21,25 @@ local function selection_button(props: {
     local pressed = source(false)
     local hovering = source(false)
 
-    return element "Frame" {
-        Name = "selection_buttons",
+    return element "TextButton" {
+        Name = "selection_button",
+
+        Size = spring(0.6, 26, computed(function(use)
+            if use(hovering) then
+                if use(pressed) then
+                    return UDim2.fromScale(0.9, 0.9)
+                else
+                    return UDim2.fromScale(1.1, 1.1)
+                end
+            else
+                return UDim2.fromScale(1, 1)
+            end
+        end)),
+
+        [button_events] = {
+            pressed = pressed,
+            hovering = hovering,
+        }
     }
 end
 

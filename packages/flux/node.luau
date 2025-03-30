@@ -1,4 +1,3 @@
---!strict
 local package = script.Parent
 
 local types = require(package.types)
@@ -14,7 +13,7 @@ function Node.new(): Node
 
 	self._dependencies = {}
 	self._dependents = {}
-	
+
 	return self
 end
 
@@ -24,7 +23,7 @@ end
 
 function Node._clear_dependencies(self: Node)
 	local dependencies = self._dependencies
-	
+
 	self._dependencies = {}
 	for dependency, _ in dependencies do
 		dependency._dependents[self] = nil
@@ -35,7 +34,7 @@ end
 
 function Node._clear_dependents(self: Node)
 	local dependents = self._dependents
-	
+
 	self._dependents = {}
 	for dependent, _ in dependents do
 		dependent._dependencies[self] = nil

@@ -1,7 +1,6 @@
---!strict
 local package = script.Parent
 
-local types = require(package.types)
+local types = require("./types")
 local graph = require(package.graph)
 local scopes = require(package.scopes)
 local Node = require(package.node)

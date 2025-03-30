@@ -5,3 +5,4 @@
 [tools]
 rojo = "rojo-rbx/rojo@7.4.4"
 run-in-roblox = "rojo-rbx/run-in-roblox@0.3.0"
+darklua = "seaofvoices/darklua@0.16.0"

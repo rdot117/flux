@@ -1,4 +1,3 @@
---!strict
 local package = script.Parent
 local shared = package.Parent
 
