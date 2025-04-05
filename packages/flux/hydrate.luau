@@ -1,6 +1,9 @@
-local types = require "./types"
-local effect = require "./effect"
-local Queue = require "@pkg/adts/queue"
+local package = script.Parent
+local packages = package.Parent
+
+local types = require(package.types)
+local effect = require(package.effect)
+local Queue = require(packages.adts.queue)
 
 type SpecialKey = types.SpecialKey
 type UsedAs<T> = types.UsedAs<T>

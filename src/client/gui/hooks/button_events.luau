@@ -1,5 +1,9 @@
-local flux = require "@pkg/flux"
-local scopes = require "@pkg/flux/scopes"
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local packages = ReplicatedStorage.packages
+
+local flux = require(packages.flux)
+local scopes = require(packages.flux.scopes)
 
 return {
     apply = function(instance: Instance, props)

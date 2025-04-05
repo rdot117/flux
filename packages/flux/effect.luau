@@ -1,8 +1,11 @@
-local types = require "./types"
-local graph = require "./graph"
-local scopes = require "./scopes"
-local Node = require "./node"
-local do_cleaning = require "@pkg/do_cleaning"
+local package = script.Parent
+local packages = package.Parent
+
+local types = require(package.types)
+local graph = require(package.graph)
+local scopes = require(package.scopes)
+local do_cleaning = require(packages.do_cleaning)
+local Node = require(package.node)
 
 type Use = types.Use
 type Effect = types.Effect
