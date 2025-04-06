@@ -23,11 +23,11 @@ export type NodeSet = { [Node]: true }
 
 -- internal implementations
 export type Readable<T> = { _value: T }
-export type Usable<T> = Node & Readable<T>
 
-export type SourceImpl<T> = Usable<T>
+export type SourceImpl<T> = Node & { _value: T }
 
-export type ComputedImpl<T> = Usable<T> & {
+export type ComputedImpl<T> = Node & {
+	_value: T,
 	_source: (use: Use) -> T,
 	_use: Use,
 }
@@ -39,7 +39,7 @@ export type EffectImpl = Node & {
 }
 
 -- external apis
-export type UsedAs<T> = T | Readable<T>
+export type UsedAs<T> = Readable<T> | T
 export type Source<T> = SourceImpl<T> & (new_value: T) -> T
 export type Computed<T> = ComputedImpl<T>
 export type Effect = () -> ()
@@ -48,7 +48,7 @@ export type Effect = () -> ()
 export type Use = <T>(used_as: UsedAs<T>) -> T
 
 -- animation
-export type SpringImpl<T> = Usable<T> & {
+export type SpringImpl<T> = Node & Readable<T> & {
 	position: T,
 	velocity: T,
 

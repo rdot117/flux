@@ -10,6 +10,10 @@
                 "$path": "packages"
             },
 
+            "tests": {
+                "$path": "tests"
+            },
+
             "shared": {
                 "$path": "src/shared"
             },
