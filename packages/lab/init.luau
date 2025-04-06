@@ -2,8 +2,12 @@ local package = script
 
 local tests = require(package.tests)
 local expect = require(package.expect)
+local collect = require(package.collect)
+local weak_ref = require(package.weak_ref)
 
 return {
+    collect = collect,
+    weak_ref = weak_ref,
     run_tests = tests.run_tests,
     expect = expect,
 

@@ -3,7 +3,7 @@
     of junk memory  and then waiting for the next frame.
 ]=] 
 
-local function collect_garbage()
+local function collect()
 	for _ = 1, 1e4 do
 		local _ = table.create(1e3)
 	end
@@ -11,4 +11,4 @@ local function collect_garbage()
 	task.wait()
 end
 
-return collect_garbage
+return collect

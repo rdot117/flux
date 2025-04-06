@@ -17,6 +17,7 @@ export type Computed<T> = types.Computed<T>
 export type UsedAs<T> = types.UsedAs<T>
 export type Context<T> = types.Context<T>
 export type Children = types.Children
+export type Effect = types.Effect
 
 return {
 
