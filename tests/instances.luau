@@ -37,13 +37,13 @@ test("flux element instance management", function()
     end)
 
     it("handles invalid property assignments", function()
-        expect().error(function()
+        expect().to_throw(function()
             element "Part" {
                 InvalidProperty = "test"
             }
         end)
 
-        expect().error(function()
+        expect().to_throw(function()
             element "Part" {
                 Position = "not_a_vector3"
             }
@@ -64,8 +64,8 @@ test("flux element instance management", function()
         } :: Folder
 
         expect(#test_folder:GetChildren() == 2).to_be(true)
-        expect(test_folder:FindFirstChild("test_child_1") ~= nil).to_be(true)
-        expect(test_folder:FindFirstChild("test_child_2") ~= nil).to_be(true)
+        expect(test_folder:FindFirstChild("test_child_1")).to_not_be(nil)
+        expect(test_folder:FindFirstChild("test_child_2")).to_not_be(nil)
     end)
 
     it("handles dynamic children in props", function()
@@ -88,12 +88,12 @@ test("flux element instance management", function()
         } :: Folder
 
         expect(#parent_folder:GetChildren() == 2).to_be(true)
-        expect(parent_folder:FindFirstChild("test_child_1") ~= nil).to_be(true)
-        expect(parent_folder:FindFirstChild("test_child_2") ~= nil).to_be(true)
+        expect(parent_folder:FindFirstChild("test_child_1")).to_not_be(nil)
+        expect(parent_folder:FindFirstChild("test_child_2")).to_not_be(nil)
 
         num_children(1)
         expect(#parent_folder:GetChildren() == 1).to_be(true)
-        expect(parent_folder:FindFirstChild("test_child_1") ~= nil).to_be(true)
+        expect(parent_folder:FindFirstChild("test_child_1")).to_not_be(nil)
         expect(parent_folder:FindFirstChild("test_child_2")).to_be(nil)
 
         num_children(0)
@@ -113,7 +113,7 @@ test("flux element instance management", function()
 
         expect(test_part.Position == Vector3.new()).to_be(true)
 
-        expect().error(function()
+        expect().to_throw(function()
             should_error(true)
         end)
     end)
@@ -133,7 +133,7 @@ test("flux element instance management", function()
             weak_table.instance = test_folder
         end)
 
-        expect(weak_table.instance:FindFirstChild("child_part") ~= nil).to_be(true)
+        expect(weak_table.instance:FindFirstChild("child_part")).to_not_be(nil)
         
         _test_scope = nil :: any
         collect()

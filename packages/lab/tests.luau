@@ -51,11 +51,11 @@ local function test_suite(
     name: string,
     run: () -> ()
 )
-    local suite = test_context(name, run)
+    local context = test_context(name, run)
     local start = os.clock()
 
-    wrap_context(suite, run)
-    suite.time_taken = os.clock() - start
+    wrap_context(context, run)
+    context.time_taken = os.clock() - start
 end
 
 local function test_case(
@@ -66,10 +66,8 @@ local function test_case(
     test.type = "test"
     test.failed = false
     test.logs = {}
-    
 
     local start = os.clock()
-
     wrap_context(test, function()
         local ok, err: string? = pcall(run)
         if not ok then

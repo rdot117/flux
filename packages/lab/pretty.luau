@@ -109,41 +109,11 @@ local function log(
     return content
 end
 
--- local function log(
---     context: types.Context,
---     tally: { passed: number, failed: number }
--- )
---     local content = "\n" .. header("tests")
-    
---     for _, item in context.items do
-
---         -- case 1: suite
---         if item.type == "suite" then
---             local suite = item :: Context
---             content ..= string.format("\n%s%s - %s", indent(#suite.labels - 1), label(suite.labels), time_taken(suite.time_taken))
-
---         -- case 2: test
---         elseif item.type == "test" then
-
---             local test = item :: Test
---             content ..= string.format("\n%s[%s] %s - %s", indent(#test.labels -1), RESULTS[test.status], label(test.labels), time_taken(test.time_taken))
-
---             -- case 3: errored test
---             if test.error then
---                 content ..= "\n" .. indent_each(test.error, #test.labels)
---             end
---         end
---     end
-
---     content ..= "\n" .. header(string.format("%s passed, %s failed", tostring(tally.passed), tostring(tally.failed)))
---     content ..= "\n" .. string.format("time taken: %s", time_taken(context.time_taken)) .. "\n"
---     content ..= header()
-    
---     return content
--- end
-
 return {
     log = log,
     header = header,
     label = label,
+
+    indent = indent,
+    indent_each = indent_each,
 }

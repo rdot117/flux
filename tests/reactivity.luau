@@ -5,6 +5,8 @@ local packages = ReplicatedStorage.packages
 local lab = require(packages.lab)
 local flux = require(packages.flux)
 
+local use_cleanup = flux.use_cleanup
+
 local it = lab.it
 local test = lab.test
 local expect = lab.expect
@@ -12,6 +14,8 @@ local source = flux.source
 local computed = flux.computed
 local effect = flux.effect
 local peek = flux.peek
+
+type Source<T> = flux.Source<T>
 
 test("flux reactivity", function()
 
@@ -102,8 +106,102 @@ test("flux reactivity", function()
         toggle_source(false)
         expect(peek(conditional_computed)).to_be(20)
         
-        source_a(15) -- Should not affect the computed
+        source_a(15) -- should not affect the computed
         expect(peek(conditional_computed)).to_be(20)
+    end)
+
+    it("handles undefined/nil values correctly", function()
+        local nil_source = source(nil) :: Source<string?>
+        local computed_with_nil = computed(function(use)
+            return use(nil_source) or "default"
+        end)
+
+        expect(peek(computed_with_nil)).to_be("default")
+
+        nil_source("value")
+        expect(peek(computed_with_nil)).to_be("value")
+    end)
+
+    it("maintains correct state with rapid updates", function()
+        local count_source = source(0)
+        local last_value = 0
+
+        effect(function(use)
+            last_value = use(count_source)
+        end)
+
+        for i = 1, 100 do
+            expect(last_value).to_be(i - 1)
+            count_source(i)
+        end
+
+        expect(last_value).to_be(100)
+    end)
+
+    it("handles complex data structures", function()
+        local data = source({ count = 0, text = "hello" })
+
+        local struct_computed = computed(function(use)
+            return use(data).count + string.len(use(data).text)
+        end)
+
+        expect(peek(struct_computed)).to_be(5)
+
+        data({ count = 10, text = "world" })
+        expect(peek(struct_computed)).to_be(15)
+    end)
+
+    it("properly cleans up effects", function()
+        local count = 0
+        local cleanup_count = 0
+        local trigger = source(true)
+        
+        effect(function(use)
+            if use(trigger) then
+                count += 1
+            end
+
+            use_cleanup(function()
+                cleanup_count += 1
+                count -= 1
+            end)
+        end)
+
+        expect(count).to_be(1)
+        expect(cleanup_count).to_be(0)
+        
+        trigger(false)
+        expect(cleanup_count).to_be(1)
+        expect(count).to_be(0)
+    end)
+
+    it("handles conditional effect creation", function()
+        local should_track = source(true)
+        local value = source(0)
+
+        local track_count = 0
+
+        effect(function(use)
+            if use(should_track) then
+                use(value)
+            end
+
+            track_count += 1
+        end)
+
+        expect(track_count).to_be(1)
+
+        value(1) -- should trigger
+        expect(track_count).to_be(2)
+
+        should_track(false) -- should trigger
+        expect(track_count).to_be(3)
+
+        value(2) -- should not trigger
+        expect(track_count).to_be(3)
+
+        should_track(true) -- should trigger
+        expect(track_count).to_be(4)
     end)
 end)
 

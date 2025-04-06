@@ -2,6 +2,7 @@ local package = script.Parent
 
 local types = require(package.types)
 local contexts = require(package.contexts)
+local pretty = require(package.pretty)
 
 type Test = types.Test
 type Expect = types.Expect
@@ -26,11 +27,51 @@ local function expect(...: any)
             local a = params[1]
             if a ~= b then
                 test.failed = true
-                table.insert(test.logs, `[expect.to_be]: expected {a} to be {b}`)
+                table.insert(test.logs,
+                    `[expect.to_be]: expected {a} to be {b}\n{pretty.indent_each(debug.traceback(), 1)}`
+                )
             end
         end,
 
-        not_error = function(
+        to_not_be = function(b: any)
+            local test = get_test()
+
+            local a = params[1]
+            if a == b then
+                test.failed = true
+                table.insert(test.logs,
+                    `[expect.to_not_be]: expected {a} to not be {b}\n{pretty.indent_each(debug.traceback(), 1)}`
+                )
+            end
+        end,
+
+        to_be_a = function(b: string)
+            local test = get_test()
+
+            local a = params[1]
+            if typeof(a) ~= b then
+                test.failed = true
+                table.insert(test.logs,
+                    `[expect.to_be_a]: expected {a} to be a {b}\n{pretty.indent_each(debug.traceback(), 1)}`
+                )
+            end
+        end,
+
+        to_throw = function(
+            run: () -> ()
+        )
+            local test = get_test()
+    
+            local ok, err: string? = pcall(run)
+            if ok then
+                test.failed = true
+                table.insert(test.logs, `[expect.to_throw]: callback did not error\n{pretty.indent_each(debug.traceback(), 1)}`)
+            else
+                table.insert(test.logs, `[expect.to_throw]: callback errored\n{pretty.indent(1)}{err}`)
+            end
+        end,
+
+        to_not_throw = function(
             run: () -> ()
         )
             local test = get_test()
@@ -38,19 +79,7 @@ local function expect(...: any)
             local ok = pcall(run)
             if not ok then
                 test.failed = true
-                table.insert(test.logs, "[expect.not_error]: callback errored")
-            end
-        end,
-    
-        error = function(
-            run: () -> ()
-        )
-            local test = get_test()
-    
-            local ok = pcall(run)
-            if ok then
-                test.failed = true
-                table.insert(test.logs, "[expect.error]: callback did not error")
+                table.insert(test.logs, `[expect.to_not_throw]: callback errored\n{pretty.indent_each(debug.traceback(), 1)}`)
             end
         end,
     }

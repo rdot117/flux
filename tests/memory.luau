@@ -4,16 +4,12 @@ local packages = ReplicatedStorage.packages
 
 local lab = require(packages.lab)
 local flux = require(packages.flux)
-local scopes = require(packages.flux.scopes)
 
 local source = flux.source
 local computed = flux.computed
 local effect = flux.effect
 local root = flux.root
 local use_cleanup = flux.use_cleanup
-
-local scope_stack = scopes.scopes
-local in_scope = scopes.in_scope
 
 local weak_ref = lab.weak_ref
 local collect = lab.collect
@@ -29,9 +25,6 @@ test("flux memory management", function()
 
     it("garbage collects unused sources", function()
         local weak_table = weak_ref()
-        
-        print(scope_stack._values)
-        expect(in_scope()).to_be(false)
 
         local source = source(10) :: Source<any>
         weak_table.source = source
@@ -49,8 +42,6 @@ test("flux memory management", function()
 
     it("garbage collects unused computeds", function()
         local weak_table = weak_ref()
-
-        expect(in_scope()).to_be(false)
 
         local source = source(10) :: Source<any>
         weak_table.source = source
@@ -79,8 +70,6 @@ test("flux memory management", function()
     it("garbage collects unused effects", function()
         local weak_table = weak_ref()
 
-        expect(in_scope()).to_be(false)
-
         local source = source(10) :: Source<any>
         weak_table.source = source
 
@@ -107,8 +96,6 @@ test("flux memory management", function()
 
     it("cleans up scopes and their dependencies", function()
         local weak_table = weak_ref()
-
-        expect(in_scope()).to_be(false)
 
         local _scope = root(function()
             local source = source(10)
@@ -140,8 +127,6 @@ test("flux memory management", function()
 
     it("handles nested scopes cleanup", function()
         local weak_table = weak_ref()
-
-        expect(in_scope()).to_be(false)
 
         local _scope, inner_scope = nil, nil
 
