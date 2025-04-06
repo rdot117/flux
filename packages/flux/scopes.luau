@@ -14,17 +14,20 @@ local function in_scope()
 	return scopes:peek() ~= nil
 end
 
-local function wrap(scope: Scope, callback: () -> ())
+local function wrap<P>(scope: Scope, callback: (() -> P) | (() -> ())): P
 	scopes:push(scope)
 
-	local ok, err: string? = pcall(callback)
-	if not ok then
-		error(`[flux]: errored while running callback in scope {err}`, 0)
-	end
+	local ok, err = pcall(callback)
 
 	if scope ~= scopes:pop() then
 		error(`[flux]: scope mismatch`, 0)
 	end
+
+	if not ok then
+		error(`[flux]: errored while running callback in scope {err}`, 0)
+	end
+
+	return (err :: any)
 end
 
 local function root(mount: () -> ())

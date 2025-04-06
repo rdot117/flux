@@ -65,6 +65,8 @@ local function test_case(
     local test = test_context(name, run) :: Test
     test.type = "test"
     test.failed = false
+    test.logs = {}
+    
 
     local start = os.clock()
 
@@ -72,7 +74,7 @@ local function test_case(
         local ok, err: string? = pcall(run)
         if not ok then
             test.failed = true
-            test.error = (err :: string) .. `\n{debug.traceback()}`
+            table.insert(test.logs, (err :: string) .. `\n{debug.traceback()}`)
         end
     end)
 

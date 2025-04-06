@@ -7,7 +7,6 @@ local Stack = require(packages.adts.stack)
 
 type Node = types.Node
 type Use = types.Use
-type Usable<T> = types.Usable<T>
 type UsedAs<T> = types.UsedAs<T>
 type Queue<T> = Queue.Queue<T>
 type Stack<T> = Stack.Stack<T>
@@ -64,7 +63,7 @@ end
 local function use(root: Node): Use
 	return function<T>(used_as: UsedAs<T>): T
 		if types.is_node(used_as) then
-			local dependency = used_as :: Usable<T>
+			local dependency = (used_as :: any) :: Node
 			root._dependencies[dependency] = true
 			dependency._dependents[root] = true
 		end

@@ -28,6 +28,7 @@ export type SourceImpl<T> = Node & { _value: T }
 
 export type ComputedImpl<T> = Node & {
 	_value: T,
+	_scope: Scope,
 	_source: (use: Use) -> T,
 	_use: Use,
 }

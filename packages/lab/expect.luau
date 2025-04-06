@@ -26,6 +26,7 @@ local function expect(...: any)
             local a = params[1]
             if a ~= b then
                 test.failed = true
+                table.insert(test.logs, `[expect.to_be]: expected {a} to be {b}`)
             end
         end,
 
@@ -37,6 +38,7 @@ local function expect(...: any)
             local ok = pcall(run)
             if not ok then
                 test.failed = true
+                table.insert(test.logs, "[expect.not_error]: callback errored")
             end
         end,
     
@@ -48,6 +50,7 @@ local function expect(...: any)
             local ok = pcall(run)
             if ok then
                 test.failed = true
+                table.insert(test.logs, "[expect.error]: callback did not error")
             end
         end,
     }

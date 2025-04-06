@@ -95,9 +95,9 @@ local function log(
             local test = item :: Test
             content ..= "\n" .. string.format("%s[%s] %s - %s", indent(#test.labels -1), RESULTS[test.status], label(test.labels), time_taken(test.time_taken))
 
-            -- case 3: errored test
-            if test.error then
-                content ..= "\n" .. indent_each(test.error, #test.labels)
+            -- case 3: additional logs
+            for _, line in test.logs do
+                content ..= "\n" .. indent_each(line, #test.labels)
             end
         end
     end

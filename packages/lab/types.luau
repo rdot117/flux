@@ -8,7 +8,7 @@ export type Test = {
     labels: { string },
     time_taken: number,
 
-    error: string?,
+    logs: { string },
     failed: boolean,
     status: Status,
 }
