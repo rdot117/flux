@@ -2,7 +2,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local packages = ReplicatedStorage.packages
 
-local flux = require(packages.flux.exports)
+local flux = require(packages.flux)
 local scopes = require(packages.flux.scopes)
 
 return {

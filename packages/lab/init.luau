@@ -1,4 +1,4 @@
-local package = script.Parent
+local package = script
 
 local tests = require(package.tests)
 local expect = require(package.expect)

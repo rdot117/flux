@@ -2,7 +2,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local packages = ReplicatedStorage.packages
 
-local lab = require(packages.lab.exports)
+local lab = require(packages.lab)
 local Stack = require(packages.adts.stack)
 
 local it = lab.it

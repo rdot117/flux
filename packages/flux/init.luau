@@ -1,4 +1,4 @@
-local package = script.Parent
+local package = script
 
 local types = require(package.types)
 local source = require(package.source)
