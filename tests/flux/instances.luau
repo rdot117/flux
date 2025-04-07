@@ -2,7 +2,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local packages = ReplicatedStorage.packages
 
-local lab = require(packages.lab)
+local testlab = require(packages.testlab)
 local flux = require(packages.flux)
 
 local source = flux.source
@@ -10,11 +10,11 @@ local computed = flux.computed
 local element = flux.element
 local root = flux.root
 
-local weak_ref = lab.weak_ref
-local collect = lab.collect
-local it = lab.it
-local test = lab.test
-local expect = lab.expect
+local weak_ref = testlab.weak_ref
+local collect = testlab.collect
+local it = testlab.it
+local test = testlab.test
+local expect = testlab.expect
 
 test("flux element instance management", function()
     it("updates instance properties from sources", function()

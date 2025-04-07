@@ -1,10 +1,10 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local packages = ReplicatedStorage.packages
-local lab = require(packages.lab)
+local testlab = require(packages.testlab)
 
-local test = lab.test
-local it = lab.it
-local expect = lab.expect
+local test = testlab.test
+local it = testlab.it
+local expect = testlab.expect
 
 test("lab framework", function()
     it("handles basic assertions", function()

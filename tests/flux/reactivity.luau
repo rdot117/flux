@@ -2,14 +2,14 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local packages = ReplicatedStorage.packages
 
-local lab = require(packages.lab)
+local testlab = require(packages.testlab)
 local flux = require(packages.flux)
 
 local use_cleanup = flux.use_cleanup
 
-local it = lab.it
-local test = lab.test
-local expect = lab.expect
+local it = testlab.it
+local test = testlab.test
+local expect = testlab.expect
 local source = flux.source
 local computed = flux.computed
 local effect = flux.effect
