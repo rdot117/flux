@@ -2,7 +2,7 @@ local package = script.Parent
 
 local types = require(package.types)
 local graph = require(package.graph)
-local scopes = require(package.scopes)
+local constructor = require(package.constructor)
 local Node = require(package.node)
 
 type Source<T> = types.Source<T>
@@ -41,12 +41,4 @@ function Source.destroy<T>(self: SourceImpl<T>)
 	Node.destroy(self)
 end
 
-return function<T>(initial_value: T): Source<T>
-	local handle = Source.new(initial_value)
-
-	if scopes.in_scope() then
-		scopes.use_cleanup(handle)
-	end
-
-	return handle
-end
+return constructor(Source.new)

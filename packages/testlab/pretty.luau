@@ -42,7 +42,7 @@ local function label(labels: { string })
 end
 
 local function indent(indents: number)
-    return string.rep("   ", indents)
+    return string.rep("  ", indents)
 end
 
 local function indent_each(has_lines: string, indents: number)

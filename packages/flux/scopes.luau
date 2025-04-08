@@ -24,7 +24,7 @@ local function wrap<P>(scope: Scope, callback: (() -> P) | (() -> ())): P
 	end
 
 	if not ok then
-		error(`[flux]: errored while running callback in scope {err}`, 0)
+		error(`[flux]: error in wrap {err}`, 0)
 	end
 
 	return (err :: any)

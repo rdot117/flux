@@ -11,7 +11,7 @@ type Queue<T> = Queue.Queue<T>
 
 local INVALID_CHILDREN_TYPE = "[flux]: invalid children type: %s"
 local PROPERTY_DOESNT_EXIST = "[flux]: attempted to set to property that doesn't exist: %s"
-local INVALID_PROPERTY_SET = "[flux]: error setting property %s to value %s: %s"
+local INVALID_PROPERTY_SET = "[flux]: error setting property %s to %s: %s"
 
 local function has_property(instance: Instance, property: string)
 	local impl = instance :: any

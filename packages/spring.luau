@@ -2,7 +2,6 @@ local RunService = game:GetService("RunService")
 
 local EPSILON = 1e-3
 
-type Bind = () -> ()
 export type Spring<T> = {
 	p: T, position: T,
 	v: T, velocity: T,
@@ -19,13 +18,17 @@ export type Spring<T> = {
 	_velocities: {number},
 	_targets: {number},
 
-	_binds: { [Bind]: boolean },
+	_binds: { [() -> ()]: boolean },
 	_bind_conn: RBXScriptConnection | false,
 
 	_watch: (self: Spring<T>) -> (),
-	_update: (self: Spring<T>) -> ({number}, {number}),
+	_update: (self: Spring<T>, dt: number?) -> ({number}, {number}),
 
-	bind: (self: Spring<T>, bind: Bind) -> () -> (),
+	_should_sleep: (self: Spring<T>, positions: { number }, velocities: { number }) -> boolean,
+	_sleep: (self: Spring<T>) -> (),
+
+	step: (self: Spring<T>, dt: number) -> (),
+	bind: (self: Spring<T>, bind: () -> ()) -> () -> (),
 	destroy: (self: Spring<T>) -> (),
 }
 
@@ -243,8 +246,10 @@ Spring.__newindex = function<T>(self: Spring<T>, key: string, value: T)
 	end
 end
 
-function Spring.new<T>(initial: T)
+function Spring.new<T>(initial: T?)
 	local self = {} :: Spring<T>
+
+	initial = initial or 0 :: any
 
 	self._time = os.clock()
 	self._type = typeof(initial)
@@ -260,56 +265,74 @@ function Spring.new<T>(initial: T)
 	return (setmetatable(self, Spring) :: any) :: Spring<T>
 end
 
-function Spring._update<T>(self: Spring<T>)
+function Spring._update<T>(self: Spring<T>, dt: number?)
 	local new_positions = {}
 	local new_velocities = {}
 
-	local dt = self.speed * (os.clock() - self._time)
+	local delta = if dt then self._speed * dt else self._speed * (os.clock() - self._time)
 
 	for i = 1, #self._positions do
 		local p0 = self._positions[i]
 		local v0 = self._velocities[i]
 		local p1 = self._targets[i]
 
-		local p, v = update(p0, v0, p1, self.damping, self.speed, dt)
+		local p, v = update(p0, v0, p1, self._damping, self._speed, delta)
 		new_positions[i], new_velocities[i] = p, v
 	end
 
 	return new_positions, new_velocities
 end
 
+function Spring._should_sleep<T>(self: Spring<T>, positions: { number }, velocities: { number })
+	
+	for i = 1, #positions do
+		local position = positions[i]
+		local velocity = velocities[i]
+		local target = self._targets[i]
+
+		local displacement = math.abs(target - position)
+		if displacement > EPSILON or math.abs(velocity) > EPSILON then
+			return false
+		end
+	end
+
+	return true
+end
+
+function Spring._sleep<T>(self: Spring<T>)
+
+	-- no point in checking spring state
+	-- once it has fallen asleep
+	if self._bind_conn then
+		self._bind_conn:Disconnect()
+		self._bind_conn = false
+	end
+
+	self._positions = table.clone(self._targets)
+	self._velocities = table.create(#self._positions, 0)
+	self._time = os.clock()
+end
+
 function Spring._watch<T>(self: Spring<T>)
+
+	local positions = self._positions
+	local velocities = self._velocities
+
+	-- no need to watch if we should sleep
+	if self:_should_sleep(positions, velocities) then
+		self:_sleep()
+		return
+	end
+
 	if self._bind_conn then
 		return
 	end
 
 	self._bind_conn = RunService.Heartbeat:Connect(function()
-		local positions, velocities = self:_update()
+		positions, velocities = self:_update()
 
-		local awake = false
-		for i = 1, #positions do
-			local position = positions[i]
-			local velocity = velocities[i]
-			local target = self._targets[i]
-
-			local displacement = math.abs(target - position)
-			if displacement > EPSILON or math.abs(velocity) > EPSILON then
-				awake = true
-				break
-			end
-		end
-
-		if not awake then
-
-			-- no point in checking spring state
-			-- once it has fallen asleep
-			if self._bind_conn then
-				self._bind_conn:Disconnect()
-				self._bind_conn = false
-			end
-
-			self._positions = table.clone(self._targets)
-			self._velocities = table.create(#self._positions, 0)
+		if self:_should_sleep(positions, velocities) then
+			self:_sleep()
 		end
 
 		-- update binds
@@ -319,7 +342,17 @@ function Spring._watch<T>(self: Spring<T>)
 	end)
 end
 
-function Spring.bind<T>(self: Spring<T>, bind: Bind)
+function Spring.step<T>(self: Spring<T>, dt: number)
+	local new_positions, new_velocities = self:_update(dt)
+	
+	self._positions = new_positions
+	self._velocities = new_velocities
+	self._time = os.clock()
+	
+	self:_watch()
+end
+
+function Spring.bind<T>(self: Spring<T>, bind: () -> ())
 	self._binds[bind] = true
 
 	return function()

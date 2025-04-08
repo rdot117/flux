@@ -1,5 +1,5 @@
 {
-    "name": "flux",
+    "name": "luau-crate",
     "emitLegacyScripts": false,
 
     "tree": {
@@ -12,20 +12,6 @@
 
             "tests": {
                 "$path": "tests"
-            },
-
-            "shared": {
-                "$path": "src/shared"
-            },
-
-            "client": {
-                "$path": "src/client"
-            }
-        },
-
-        "ServerScriptService": {
-            "server": {
-                "$path": "src/server"
             }
         },
 

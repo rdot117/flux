@@ -1,17 +1,20 @@
+-- modules
 local fs = require "@lune/fs"
 local process = require "@lune/process"
 local roblox = require "@lune/roblox"
-local install = require "install"
 
+-- imports
 local Instance = roblox.Instance
-install()
-
 local test_package = process.args[1]
 
-local function inject_text_context()
-    local build_file = fs.readFile("build.rbxl")
+-- constants
+local TEST_PLACE = "test.rbxl"
 
-    local game = roblox.deserializePlace(build_file)
+-- functions
+local function inject_text_context()
+    local test_file = fs.readFile(TEST_PLACE)
+
+    local game = roblox.deserializePlace(test_file)
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
     local test_context = Instance.new("StringValue")
@@ -25,8 +28,8 @@ local function inject_text_context()
         test_context.Value = "all"
     end
 
-    local new_build_file = roblox.serializePlace(game)
-    fs.writeFile("build.rbxl", new_build_file)
+    local new_test_file = roblox.serializePlace(game)
+    fs.writeFile(TEST_PLACE, new_test_file)
 end
 
 -- sourcemap updates
@@ -34,7 +37,7 @@ process.spawn("rojo", { "sourcemap", "default.project.json", "--output", "source
 print "[test]: updated rojo sourcemap"
 
 -- build rbxl
-process.spawn("rojo", {"build", "-o", "build.rbxl"})
+process.spawn("rojo", { "build", "default.project.json", "-o", TEST_PLACE })
 print "[test]: built test file"
 
 -- test context flag
@@ -43,4 +46,4 @@ print "[test]: injected text context"
 
 -- run-in-roblox
 print "[test]: attempting to run in roblox"
-process.spawn("run-in-roblox", { "--script", "run_test.luau", "--place", "build.rbxl" }, { stdio = "forward" })
+process.spawn("run-in-roblox", { "--script", "scripts/run_test.luau", "--place", TEST_PLACE }, { stdio = "forward" })

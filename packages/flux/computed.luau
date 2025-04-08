@@ -5,6 +5,7 @@ local types = require(package.types)
 local graph = require(package.graph)
 local scopes = require(package.scopes)
 local do_cleaning = require(packages.do_cleaning)
+local constructor = require(package.constructor)
 local Node = require(package.node)
 
 type Use = types.Use
@@ -54,12 +55,4 @@ function Computed.destroy<T>(self: ComputedImpl<T>)
 	Node.destroy(self)
 end
 
-return function<T>(source: (use: Use) -> T)
-	local handle = Computed.new(source)
-
-	if scopes.in_scope() then
-		scopes.use_cleanup(handle)
-	end
-
-	return handle
-end
+return constructor(Computed.new)

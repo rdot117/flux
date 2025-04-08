@@ -4,6 +4,7 @@ local packages = package.Parent
 local types = require(package.types)
 local graph = require(package.graph)
 local scopes = require(package.scopes)
+local constructor = require(package.constructor)
 local do_cleaning = require(packages.do_cleaning)
 local Node = require(package.node)
 
@@ -51,12 +52,4 @@ function Effect.destroy(self: EffectImpl)
 	Node.destroy(self)
 end
 
-return function(source: (use: Use) -> ())
-	local handle = Effect.new(source)
-
-	if scopes.in_scope() then
-		scopes.use_cleanup(handle)
-	end
-
-	return handle
-end
+return constructor(Effect.new)

@@ -2,9 +2,9 @@ local package = script.Parent
 local packages = package.Parent
 
 local types = require(package.types)
-local scopes = require(package.scopes)
 local graph = require(package.graph)
 local effect = require(package.effect)
+local constructor = require(package.constructor)
 local Node = require(package.node)
 local InternalSpring = require(packages.spring)
 
@@ -76,12 +76,4 @@ function Spring.destroy<T>(self: SpringImpl<T>)
 	Node.destroy(self)
 end
 
-return function<T>(damping: UsedAs<number>, speed: UsedAs<number>, target: UsedAs<T>)
-	local handle = Spring.new(damping, speed, target)
-
-	if scopes.in_scope() then
-		scopes.use_cleanup(handle)
-	end
-
-	return handle
-end
+return constructor(Spring.new)

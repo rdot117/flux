@@ -42,7 +42,7 @@ local function capture<T...>(root: Node, evaluate: (...any) -> T..., ...: any): 
 	end)
 
 	if not ok then
-		error(`[flux]: errored while capturing {result}`, 0)
+		error(result)
 	end
 
 	-- if root ~= capturing:pop() then

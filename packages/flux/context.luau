@@ -32,6 +32,4 @@ function Context.destroy<T>(self: ContextImpl<T>)
     self._value = (nil :: any) :: T
 end
 
-return function<T>(initial: T): Context<T>
-    return Context.new(initial)
-end
+return Context.new

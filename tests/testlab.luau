@@ -1,10 +1,12 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local packages = ReplicatedStorage.packages
+
 local testlab = require(packages.testlab)
 
 local test = testlab.test
 local it = testlab.it
 local expect = testlab.expect
+local log = testlab.log
 
 test("lab framework", function()
     it("handles basic assertions", function()
@@ -46,6 +48,10 @@ test("lab framework", function()
     it("maintains state between tests", function()
         test_value += 1
         expect(test_value).to_be(2)
+    end)
+
+    it("logs: hello testlab!", function()
+        log("hello testlab!")
     end)
 end)
 
